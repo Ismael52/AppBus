@@ -1,0 +1,259 @@
+import React, { useState, useEffect, useRef } from 'react';
+import {
+    View,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    StyleSheet,
+    Animated,
+    Easing,
+    errors,
+    Image
+
+} from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+
+
+const LoginScreen2 = ({ navigation }) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [selectedRole, setSelectedRole] = useState('');
+    const [errors, setErrors] = useState('');
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+    Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true
+    }).start();
+
+    const translateY = fadeAnim.interpolate({
+        inputRange: [0, 1],
+        outputRange: [50, 0]
+    });
+
+    useEffect(() => {
+        Animated.timing(
+            fadeAnim,
+            {
+                toValue: 1,
+                duration: 3000,
+                useNativeDriver: true
+            }
+        ).start();
+    }, [fadeAnim]);
+
+    // Configuración de animaciones
+    const spinValue = new Animated.Value(0);
+    const spin = spinValue.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0deg', '360deg'],
+    });
+
+    const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
+
+    const slideIn = () => {
+        Animated.timing(animatedValue, {
+            toValue: 1,
+            duration: 500,
+            easing: Easing.ease,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const slideOut = () => {
+        Animated.timing(animatedValue, {
+            toValue: 0,
+            duration: 500,
+            easing: Easing.ease,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    const validateForm = () => {
+        let formErrors = {};
+
+        if (!email) {
+            formErrors.email = 'Email is required';
+        }
+
+        if (!password) {
+            formErrors.password = 'Password is required';
+        }
+        if (!selectedRole) {
+            formErrors.selectedRole = 'Role is required';
+        }
+
+        setErrors(formErrors);
+        return Object.keys(formErrors).length === 0;
+    }
+
+    const handleLogin = () => {
+        if (validateForm()) {
+            console.log("campos validados Correctamente")
+            navigation.navigate("BuscarPasaje")
+        }
+    }
+    return (
+        <View style={styles.container}>
+            <Animated.Image
+                style={[styles.logo, { opacity: fadeAnim }]}
+                source={require('../assets/Waju.png')}
+            />
+            <Animated.Text style={[styles.text2, { opacity: fadeAnim, transform: [{ translateY }] }]}>
+                INICIA SECCION o REGISTRATE
+            </Animated.Text>
+            <View style={styles.inputContainer}>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Correo electrónico"
+                    value={email}
+                    onChangeText={setEmail}
+                />
+                {errors.email && <Text style={styles.error}>{errors.email}</Text>}
+
+                <TextInput
+                    style={styles.input}
+                    placeholder="Contraseña"
+                    value={password}
+                    onChangeText={setPassword}
+                />
+                {errors.password && <Text style={styles.error}>{errors.password}</Text>}
+                <View style={styles.rolesContainer}>
+                    <TouchableOpacity
+                        style={[styles.roleButton, selectedRole === 'user' && styles.selectedRoleButton]}
+                        onPress={() => {
+                            setSelectedRole('user');
+                            slideIn();
+                        }}
+                    >
+                        <Text style={styles.roleButtonText}>Usuario</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.roleButton, selectedRole === 'provider' && styles.selectedRoleButton]}
+                        onPress={() => {
+                            setSelectedRole('provider');
+                            slideIn();
+                        }}
+                    >
+                        <Text style={styles.roleButtonText}>Proveedor</Text>
+                    </TouchableOpacity>
+                </View>
+                {errors.selectedRole && <Text style={styles.error}>{errors.selectedRole}</Text>}
+                <Animated.View
+                    style={[
+                        styles.roleExplanationContainer,
+                        { opacity: animatedValue, transform: [{ translateY: animatedValue.interpolate({ inputRange: [0, 1], outputRange: [0, 20] }) }] }
+                    ]}
+                >
+                    <View style={styles.roleExplanationText}>
+                        {selectedRole === 'user' ?
+                            <View style={{ alignItems: 'center' }}>
+                                <MaterialIcons name="supervised-user-circle" size={54} color="black" style={{ alignItems: 'center' }} />
+                                <Text style={styles.text}>'Registrate y busca pasajes de bus'</Text>
+
+                            </View>
+                            :
+                            <View style={{ alignItems: 'center' }} >
+                                <MaterialIcons name="directions-bus" size={54} color="black" style={{ alignItems: 'center' }} />
+                                <Text style={styles.text}>'Publica y vende tus pasajes de bus'</Text>
+
+                            </View>
+                        }
+                    </View>
+                </Animated.View>
+                <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+                    <Text style={styles.loginButtonText}>Iniciar Sesión</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.loginButton} onPress={"handleLogin"}>
+                    <Text style={styles.loginButtonText}>Registrarse</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    logoContainer: {
+        marginBottom: 50,
+    },
+    logoText: {
+        fontSize: 40,
+        fontWeight: 'bold',
+        color: '#555',
+    },
+    inputContainer: {
+        alignItems: 'center',
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: '#ddd',
+        borderRadius: 5,
+        padding: 10,
+        marginVertical: 10,
+        width: '80%',
+        fontSize: 16,
+    },
+    rolesContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginBottom: 20,
+    },
+    roleButton: {
+        backgroundColor: '#ddd',
+        padding: 10,
+        marginHorizontal: 10,
+        borderRadius: 5,
+        width: 120,
+        alignItems: 'center',
+    },
+    selectedRoleButton: {
+        backgroundColor: '#999',
+    },
+    roleButtonText: {
+        fontWeight: 'bold',
+    },
+    roleExplanationContainer: {
+        marginVertical: 10,
+    },
+    roleExplanationText: {
+        fontStyle: 'italic',
+    },
+    loginButton: {
+        backgroundColor: '#555',
+        padding: 10,
+        borderRadius: 5,
+        width: 150,
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    loginButtonText: {
+        color: '#fff',
+        fontWeight: 'bold',
+    },
+    text: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: 'red',
+        textAlign: 'center',
+        // Animación de rotación
+        transform: [{ rotate: '0deg' }],
+    },
+    logo: {
+        width: 200,
+        height: 200,
+        marginTop: 100,
+        padding: 0
+    },
+    text2: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: 'black'
+    }
+});
+export default LoginScreen2;
