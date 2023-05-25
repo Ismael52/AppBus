@@ -1,0 +1,19 @@
+desde git
+la carpeta donde esta el proyecto debe tener el mismo nombre que en el de github
+git init
+git status
+git add . para seleccionar todo
+git commit -m "se agrega el proyecto"
+git branch -M main
+git remote add origin https://github.com/Ismael52/AppBus.git
+git push -u origin main
+
+para actualizar, despues de realizar los cambios
+abrir el git bash here desde la raiz del proyecto
+para verificar si el proytecto esta asociado usar
+	git status
+y deberia mostrar los cambios realizados en el proyecto
+	git add .
+para subir todos los archivos modificados
+	git commit -m "se agrego tal cosa"
+	git push -u origin main
