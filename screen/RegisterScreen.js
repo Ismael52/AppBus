@@ -9,6 +9,7 @@ const RegisterScreen = () => {
   const [genero, setGenero] = useState('');
   const [correoElectronico, setCorreoElectronico] = useState('');
   const [nroCarnet, setNroCarnet] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleFinalizar = () => {
     const datosPersonales = {
@@ -18,7 +19,8 @@ const RegisterScreen = () => {
       fechaNacimiento,
       genero,
       correoElectronico,
-      nroCarnet
+      nroCarnet,
+      password
     };
     console.log(datosPersonales);
   };
@@ -64,17 +66,26 @@ const RegisterScreen = () => {
 
       <TextInput
         style={styles.input}
-        placeholder="Dirección de Correo Electrónico"
-        value={correoElectronico}
-        onChangeText={setCorreoElectronico}
-      />
-
-      <TextInput
-        style={styles.input}
         placeholder="Nro. de Carnet"
         value={nroCarnet}
         onChangeText={setNroCarnet}
       />
+
+
+      <TextInput
+        style={styles.input}
+        placeholder="Dirección de Correo Electrónico"
+        value={correoElectronico}
+        onChangeText={setCorreoElectronico}
+      />
+      <TextInput
+        secureTextEntry
+        style={styles.input}
+        placeholder="Contraseña"
+        value={password}
+        onChangeText={setPassword}
+      />
+
 
       <TouchableOpacity style={styles.button} onPress={handleFinalizar}>
         <Text style={styles.buttonText}>Finalizado</Text>

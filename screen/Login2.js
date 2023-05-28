@@ -42,6 +42,7 @@ const LoginScreen2 = ({ navigation }) => {
     inputRange: [0, 1],
     outputRange: ['0deg', '360deg'],
   });
+  
 
   const [animatedValue, setAnimatedValue] = useState(new Animated.Value(0));
 

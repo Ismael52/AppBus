@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, FlatList, StyleSheet } from 'react-native';
+import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 
 const data = [
     {
@@ -13,98 +13,108 @@ const data = [
     },
     {
         id: '2',
-        origen: 'Santa Cruz',
-        destino: 'La Paz',
+        origen: 'Cochabamba',
+        destino: 'Oruro',
         fecha: '2023-06-01',
-        hora: '10:00',
-        precio: 150,
+        hora: '11:00',
+        precio: 250,
         imagen: require('../assets/Bus.png'),
     },
     {
         id: '3',
-        origen: 'Santa Cruz',
-        destino: 'La Paz',
+        origen: 'Potosí',
+        destino: 'Sucre',
         fecha: '2023-06-01',
-        hora: '10:00',
-        precio: 200,
+        hora: '12:00',
+        precio: 180,
         imagen: require('../assets/Bus.png'),
     },
     {
         id: '4',
-        origen: 'Santa Cruz',
-        destino: 'La Paz',
+        origen: 'Tarija',
+        destino: 'Chuquisaca',
         fecha: '2023-06-01',
-        hora: '10:00',
-        precio: 200,
+        hora: '13:00',
+        precio: 350,
         imagen: require('../assets/Bus.png'),
     },
     {
         id: '5',
-        origen: 'Santa Cruz',
-        destino: 'La Paz',
+        origen: 'Beni',
+        destino: 'Pando',
         fecha: '2023-06-01',
-        hora: '10:00',
-        precio: 200,
+        hora: '14:00',
+        precio: 300,
         imagen: require('../assets/Bus.png'),
     },
     {
         id: '6',
-        origen: 'Santa Cruz',
-        destino: 'La Paz',
+        origen: 'Oruro',
+        destino: 'Cochabamba',
         fecha: '2023-06-01',
-        hora: '10:00',
+        hora: '15:00',
         precio: 200,
         imagen: require('../assets/Bus.png'),
-    }, {
+    },
+    {
         id: '7',
-        origen: 'Santa Cruz',
-        destino: 'La Paz',
+        origen: 'La Paz',
+        destino: 'Santa Cruz',
         fecha: '2023-06-01',
-        hora: '10:00',
-        precio: 200,
+        hora: '16:00',
+        precio: 280,
         imagen: require('../assets/Bus.png'),
     },
     {
         id: '8',
-        origen: 'Santa Cruz',
-        destino: 'La Paz',
+        origen: 'Chuquisaca',
+        destino: 'Tarija',
         fecha: '2023-06-01',
-        hora: '10:00',
-        precio: 200,
+        hora: '17:00',
+        precio: 400,
         imagen: require('../assets/Bus.png'),
-    }, {
+    },
+    {
         id: '9',
-        origen: 'Santa Cruz',
-        destino: 'La Paz',
+        origen: 'Pando',
+        destino: 'Beni',
         fecha: '2023-06-01',
-        hora: '10:00',
-        precio: 200,
+        hora: '18:00',
+        precio: 420,
         imagen: require('../assets/Bus.png'),
     },
     {
         id: '10',
-        origen: 'Santa Cruz',
-        destino: 'La Paz',
+        origen: 'Sucre',
+        destino: 'Potosí',
         fecha: '2023-06-01',
-        hora: '10:00',
-        precio: 200,
+        hora: '19:00',
+        precio: 300,
         imagen: require('../assets/Bus.png'),
     }
-    // ...otros objetos del JSON
 ];
-const BusquedaPasajes = ({ navigation }) => {
 
+// Ordenar los precios de forma ascendente
+data.sort((a, b) => a.precio - b.precio);
+
+const BusquedaPasajes = ({ navigation }) => {
+    const handleBusPress = (item) => {
+        navigation.navigate('DetalleBus', item);
+    };
 
     const Item = ({ item }) => (
-        <View style={styles.item}>
-            <Image source={item.imagen} style={styles.imagen} />
-            <View style={styles.contenido}>
-                <Text style={styles.texto}>{item.origen} - {item.destino}</Text>
-                <Text style={styles.texto}>{item.fecha} {item.hora}</Text>
-                <Text style={styles.texto}>Precio: {item.precio}</Text>
+        <TouchableOpacity onPress={() => handleBusPress(item)}>
+            <View style={styles.item}>
+                <Image source={item.imagen} style={styles.imagen} />
+                <View style={styles.contenido}>
+                    <Text style={styles.texto}>{item.origen} - {item.destino}</Text>
+                    <Text style={styles.texto}>{item.fecha} {item.hora}</Text>
+                    <Text style={styles.texto}>Precio: {item.precio}</Text>
+                </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
+
     const renderItem = ({ item }) => <Item item={item} />;
 
     return (

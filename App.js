@@ -8,6 +8,8 @@ import BuscarPasaje from './screen/BuscarPasaje';
 import ListaPasaje from "./screen/ListaDePasaje"
 import LoginScreen2 from './screen/Login2';
 import RegisterScreen from './screen/RegisterScreen';
+import DetalleBus from "./screen/DetallaBus"
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -22,6 +24,7 @@ export default function App() {
         <Stack.Screen name="ListaPasaje" component={ListaPasaje} />
         <Stack.Screen name="LoginScreen2" component={LoginScreen2} />
         <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+        <Stack.Screen name="DetalleBus" component={DetalleBus} />
       </Stack.Navigator>
     </NavigationContainer>
   );
