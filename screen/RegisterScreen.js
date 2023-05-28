@@ -27,7 +27,7 @@ const RegisterScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Datos Personales</Text>
+      <Text style={styles.title}>Datos no Personales</Text>
 
       <TextInput
         style={styles.input}
